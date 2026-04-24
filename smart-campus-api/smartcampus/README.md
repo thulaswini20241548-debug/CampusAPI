@@ -249,7 +249,7 @@ Testability – Classes can be unit-tested without running the whole application
 
 
 ### Part 5: Advanced Error Handling, Exception Mapping & Logging
-###2. Dependency Validation
+### 2. Dependency Validation
 
 Question: Why is HTTP 422 Unprocessable Entity more semantically accurate than 404 Not Found when a JSON payload references a non-existent resource?
 

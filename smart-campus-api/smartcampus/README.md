@@ -23,6 +23,7 @@ All responses are in `application/json`. Data is stored in-memory using `Concurr
 
 ## Project Structure
 
+```
 smart-campus-api/
 ├── pom.xml
 └── src/
@@ -53,6 +54,8 @@ smart-campus-api/
         └── webapp/
             └── WEB-INF/
                 └── web.xml
+```
+
 
 
 ## How to Build & Run

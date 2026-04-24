@@ -69,7 +69,7 @@ smartcampus/
 ### Step 1 — Clone / Open the project
 ```bash
 git clone https://github.com/thulaswini20241548-debug/CampusAPI/smart-campus-api.git
-cd smart-campus-api
+cd smartcampus
 ```
 Or in NetBeans: **File → Open Project** → select the `smartcampus` folder.
 

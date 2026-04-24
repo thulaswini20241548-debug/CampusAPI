@@ -159,7 +159,7 @@ curl -X DELETE http://localhost:8080/smart-campus-api/api/v1/rooms/HALL-205
 ## Report: Answers to Questions
 
 ### Part 1: Service Architecture & Setup
-## 1. Project & Application Configuration
+### 1. Project & Application Configuration
 
 Question: Explain the default lifecycle of a JAX-RS Resource class. Is a new instance created per request or is it a singleton? How does this affect in-memory data management?
 
@@ -168,7 +168,7 @@ According to JAX-RS specification ,The JAX-RS framework creates a new instance o
 However, this per-request instantiation raises a challenge when comes to data management in memory. Storing data in terms of using any collection like a HashMap as instance variable within the resource class causes creation of a new hashmap for each request and consequently results in losing all stored data. Hence, Singleton design pattern was done through DataStore API so that only 1 instance will be created every time DataStore The instance is called by calling getInstance() and assigned as a final static object within the class.
 Also, as one can imagine multiple requests could come at the same time so we have to ensure data structures are thread safe . Using a regular HashMap in this situation could cause issues like race conditions, invalidation of data integrity, or infinite loops due to rehashing operations.therefore rather than using HashMap , we are using ConcurrentHashMap .
 
-## 2. The "Discovery" Endpoint
+### 2. The "Discovery" Endpoint
 
 Question: Why is HATEOAS considered a hallmark of advanced RESTful design? How does it benefit client developers compared to static documentation?
 
@@ -184,7 +184,7 @@ Guidance for workflows: the server tells the client what actions are possible at
 
 
 ### Part 2: Room Management
-## 1. Room Resource Implementation
+### 1. Room Resource Implementation
 
 Question: What are the implications of returning only IDs versus full room objects in a list response?
 
@@ -193,7 +193,7 @@ Room IDs only: This is done so that minimal data is sent via the wire (such as [
 Sending room objects fully ensures increased transmission of data but reduces latency as all needed data would come from one request to the API. This approach is recommended in most situations since, although there may be some increase in network data transmission in the JSON format, it decreases round-trips greatly.
 However, the best way to achieve both reduced payload and increased efficiency is using the sparse fieldsets, where a query parameter fields can be included (example: ?fields=id,name). In this API, I have chosen to send complete objects in the list due to its greater usability to the campus facility manager.
 
-## 2. Room Deletion & Safety Logic
+### 2. Room Deletion & Safety Logic
 
 Question: Is DELETE idempotent in your implementation? Justify with what happens on repeated identical requests.
 
@@ -209,7 +209,7 @@ Changing HTTP responses for each call: The first request and future requests dif
 Some purists of the REST API philosophy might require 204 No Content as the response from repeated DELETE request to ensure idempotency of the HTTP response. However, in reality, 404 Not Found is returned in production systems because of semantic reasons.
 
 ### Part 3: Sensor Operations & Linking
-## 1. Sensor Resource & Integrity
+### 1. Sensor Resource & Integrity
 
 Question: What happens if a client sends data in text/plain or application/xml to a method annotated with @Consumes(MediaType.APPLICATION_JSON)?
 
@@ -217,7 +217,7 @@ Answer:
 The @Consumes(MediaType.APPLICATION_JSON) annotation advises the JAX-RS implementation to consider only requests for which the request headers hold application/json as content-type.
 If client sends request headers like Content-Type=text/plain or Content-Type=application/xml, content negotiation performed by JAX-RS implementation results in no resource method being matched. Thus, the response returned by JAX-RS is HTTP 415 Unsupported Media Type without even invoking the resource method. This feature is beneficial as it helps to get rid of processing requests with unsupported data format in the application layer. The client, conversely, learns about his or her mistake; the developer knows which format of data is expected to arrive. In case the @Consume annotation has not been used, in that case wrong datatype would be sent to the resource method and you will receive error message.
 
-## 2. Filtered Retrieval & Search
+### 2. Filtered Retrieval & Search
 
 Question: Why is the query parameter approach (/sensors?type=CO2) superior to a path-based approach (/sensors/type/CO2) for filtering collections?
 
@@ -233,7 +233,7 @@ Simplicity for client – Query strings are properly encoded by standard HTTP cl
 
 
 ### Part 4: Deep Nesting with Sub-Resources
-## 1. The Sub-Resource Locator Pattern
+### 1. The Sub-Resource Locator Pattern
 
 Question: Discuss the architectural benefits of the Sub-Resource Locator pattern for managing complexity in large APIs.
 
@@ -249,7 +249,7 @@ Testability – Classes can be unit-tested without running the whole application
 
 
 ### Part 5: Advanced Error Handling, Exception Mapping & Logging
-## 2. Dependency Validation
+###2. Dependency Validation
 
 Question: Why is HTTP 422 Unprocessable Entity more semantically accurate than 404 Not Found when a JSON payload references a non-existent resource?
 
@@ -260,7 +260,7 @@ Thus, in brief, one has to recognize the differences between those statuses as f
 Status CodeWhen to Use400 Bad RequestProblem with the syntax of the request (invalid or missing parameters)404 Not FoundThe URL/path does not exist at all422 Unprocessable EntityThe path/URL exists, but the content is wrong
 Considering the above-mentioned, one may argue that 422 is preferable in that case, as the server will let the client know that the request is fine, while business logic forbids processing it.
 
-## 4. The Global Safety Net
+### 4. The Global Safety Net
 
 Question: From a cybersecurity standpoint, what risks are associated with exposing Java stack traces to external API consumers?
 
@@ -275,7 +275,7 @@ Potential database queries or connection strings - for lower-level errors that i
 
 Fortunately, the GlobalExceptionMapper provided by the present API handles this issue by intercepting all kinds of exceptions which can occur under the category of Throwable, logging these only internally, i.e., on the server side (administrators only have access to it), and responding to the client with a simple 500 error message.
 
-## 5. API Request & Response Logging Filters
+### 5. API Request & Response Logging Filters
 
 Question: Why is it better to use JAX-RS filters for logging rather than inserting Logger statements into every resource method?
 

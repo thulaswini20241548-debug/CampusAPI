@@ -71,7 +71,7 @@ smartcampus/
 git clone https://github.com/YOUR_USERNAME/smart-campus-api.git
 cd smart-campus-api
 ```
-Or in NetBeans: **File → Open Project** → select the `smart-campus-api` folder.
+Or in NetBeans: **File → Open Project** → select the `smartcampus` folder.
 
 ### Step 2 — Build the WAR file
 ```bash
